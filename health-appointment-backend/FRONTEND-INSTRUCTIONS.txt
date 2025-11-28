@@ -1,0 +1,1 @@
+This repo originally contains a Next.js frontend. Place the backend folder alongside the frontend root and adjust API base URL in frontend to http://localhost:4000/api
