@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -14,6 +13,7 @@ interface Profile {
   last_name: string
   email: string
   user_type: string
+  created_at?: string
 }
 
 interface Appointment {
@@ -45,24 +45,26 @@ export default function AdminDashboard({
   const [activeTab, setActiveTab] = useState<"overview" | "users" | "appointments">("overview")
   const [searchTerm, setSearchTerm] = useState("")
   const router = useRouter()
-  const supabase = createClient()
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data: profilesData } = await supabase.from("profiles").select("*")
-
-      const { data: appointmentsData } = await supabase.from("appointments").select("*")
-
-      if (profilesData) setUsers(profilesData)
-      if (appointmentsData) setAppointments(appointmentsData)
-      setIsLoading(false)
+      try {
+        // Fetch users (would need an API endpoint)
+        // For now, using empty arrays
+        setUsers([])
+        setAppointments([])
+        setIsLoading(false)
+      } catch (error) {
+        console.error("Error fetching data:", error)
+        setIsLoading(false)
+      }
     }
 
     fetchData()
-  }, [supabase])
+  }, [])
 
   const handleLogout = async () => {
-    await supabase.auth.signOut()
+    await fetch('/api/auth/logout', { method: 'POST' })
     router.push("/")
   }
 

@@ -68,12 +68,12 @@ export class DatabaseService {
 
   static async findUserByEmail(email: string): Promise<User | null> {
     const db = await this.getDb()
-    return db.collection('users').findOne({ email })
+    return db.collection('users').findOne({ email }) as Promise<User | null>
   }
 
   static async findUserById(id: string): Promise<User | null> {
     const db = await this.getDb()
-    return db.collection('users').findOne({ _id: new ObjectId(id) })
+    return db.collection('users').findOne({ _id: new ObjectId(id) }) as Promise<User | null>
   }
 
   static async updateUserProfile(id: string, updates: { firstName?: string, lastName?: string }): Promise<boolean> {
@@ -98,23 +98,23 @@ export class DatabaseService {
     return doctors.map(doc => ({
       ...doc,
       id: doc._id?.toString() || doc.id
-    }))
+    })) as Doctor[]
   }
 
   static async findDoctorById(id: string): Promise<Doctor | null> {
     const db = await this.getDb()
     try {
       // Try to find by ObjectId first
-      return await db.collection('doctors').findOne({ _id: new ObjectId(id) })
+      return await db.collection('doctors').findOne({ _id: new ObjectId(id) }) as Doctor | null
     } catch (error) {
       // If ObjectId conversion fails, try finding by string id
-      return await db.collection('doctors').findOne({ id: id })
+      return await db.collection('doctors').findOne({ id: id }) as Doctor | null
     }
   }
 
   static async findDoctorByUserId(userId: string): Promise<Doctor | null> {
     const db = await this.getDb()
-    return await db.collection('doctors').findOne({ userId: userId }) as Promise<Doctor | null>
+    return await db.collection('doctors').findOne({ userId: userId }) as Doctor | null
   }
 
   static async createDoctor(doctor: Omit<Doctor, '_id' | 'createdAt'>): Promise<Doctor> {
@@ -137,11 +137,6 @@ export class DatabaseService {
     return { ...newDoctor, _id: result.insertedId }
   }
 
-  static async findDoctorByUserId(userId: string): Promise<Doctor | null> {
-    const db = await this.getDb()
-    return db.collection('doctors').findOne({ userId: userId })
-  }
-
   // Appointments
   static async createAppointment(appointment: Omit<Appointment, '_id' | 'createdAt' | 'updatedAt'>): Promise<Appointment> {
     const db = await this.getDb()
@@ -158,12 +153,12 @@ export class DatabaseService {
 
   static async getAppointmentsByPatient(patientId: string): Promise<Appointment[]> {
     const db = await this.getDb()
-    return db.collection('appointments').find({ patientId: new ObjectId(patientId) }).sort({ appointmentDate: 1 }).toArray()
+    return db.collection('appointments').find({ patientId: new ObjectId(patientId) }).sort({ appointmentDate: 1 }).toArray() as Promise<Appointment[]>
   }
 
   static async getAppointmentsByDoctor(doctorId: string): Promise<Appointment[]> {
     const db = await this.getDb()
-    return db.collection('appointments').find({ doctorId: new ObjectId(doctorId) }).sort({ appointmentDate: 1 }).toArray()
+    return db.collection('appointments').find({ doctorId: new ObjectId(doctorId) }).sort({ appointmentDate: 1 }).toArray() as Promise<Appointment[]>
   }
 
   static async updateAppointment(id: string, update: Partial<Appointment>): Promise<void> {
@@ -176,7 +171,7 @@ export class DatabaseService {
 
   static async findAppointmentById(id: string): Promise<Appointment | null> {
     const db = await this.getDb()
-    return db.collection('appointments').findOne({ _id: new ObjectId(id) }) as Promise<Appointment | null>
+    return await db.collection('appointments').findOne({ _id: new ObjectId(id) }) as Appointment | null
   }
 
   // Feedback

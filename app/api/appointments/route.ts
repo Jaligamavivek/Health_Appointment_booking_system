@@ -102,7 +102,7 @@ export async function GET(request: Request) {
       const doctor = await DatabaseService.findDoctorByUserId(payload.userId)
       console.log("Found doctor:", doctor)
       
-      if (doctor) {
+      if (doctor && doctor._id) {
         console.log("Getting appointments for doctor ID:", doctor._id.toString())
         appointments = await DatabaseService.getAppointmentsByDoctor(doctor._id.toString())
         console.log("Found appointments:", appointments.length)

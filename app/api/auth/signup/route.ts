@@ -30,7 +30,7 @@ export async function POST(request: Request) {
     })
 
     // If user is a doctor, also create a doctor record with user ID link
-    if (userType === 'doctor') {
+    if (userType === 'doctor' && user._id) {
       await DatabaseService.createDoctorWithUserId({
         userId: user._id.toString(),
         name: `Dr. ${firstName} ${lastName}`,

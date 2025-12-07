@@ -4,10 +4,10 @@ import { ObjectId } from 'mongodb'
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const doctorId = params.id
+    const { id: doctorId } = await params
     
     const client = await clientPromise
     const db = client.db('healthcare')
