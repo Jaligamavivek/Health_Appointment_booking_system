@@ -50,7 +50,7 @@ export interface Feedback {
 
 export class DatabaseService {
   private static async getDb() {
-    const client = await clientPromise
+    const client = await clientPromise()
     return client.db('healthcare')
   }
 
