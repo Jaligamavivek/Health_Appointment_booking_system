@@ -3,9 +3,9 @@
 ## Changes Made to Fix Build Issues
 
 ### 1. Node Version Pinning
-- Created `.nvmrc` file with Node 18 LTS
-- Updated `netlify.toml` to use Node 18
-- Added `engines` field in `package.json` to enforce Node 18
+- Created `.nvmrc` file with Node 20 (required for Next.js 16)
+- Updated `netlify.toml` to use Node 20
+- Added `engines` field in `package.json` to enforce Node >=20.9.0
 
 ### 2. Build Optimization
 - Added `build:fast` script that skips TypeScript/ESLint checks during build
@@ -80,7 +80,7 @@ npm run start
 
 ## What Was Fixed
 
-1. **Node v22 Compatibility**: Pinned to Node 18 LTS (most stable for Next.js)
+1. **Node Version Fix**: Updated to Node 20 (required for Next.js 16)
 2. **Build Timeout**: Optimized TypeScript compilation to prevent hanging
 3. **Lockfile Conflicts**: Removed duplicate pnpm-lock.yaml
 4. **Build Command**: Using proper production build instead of dev server
